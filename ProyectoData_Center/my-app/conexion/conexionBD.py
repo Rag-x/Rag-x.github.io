@@ -11,7 +11,7 @@ def connectionBD():
         connection = mysql.connector.connect(
             host="monorail.proxy.rlwy.net",
                 #host="viaduct.proxy.rlwy.net",
-            port= 3306,
+            port= 45450,
             user="root",
             passwd="EaHAb-EefcA2GedFHaE66g1dc-EA1Ac6",
                 #passwd="-D2eD6aDb5Bg6dEbhAAeBB6gd3EheaBg",
