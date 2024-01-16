@@ -70,32 +70,55 @@ def generar_clave(id):
 @app.route('/crear-area', methods=['GET','POST'])
 def crearArea():
     if request.method == 'POST':
-        area_name = request.form['nombre_area']  # Asumiendo que 'nombre_area' es el nombre del campo en el formulario
-        resultado_insert = guardarArea(area_name)
+        area_name = request.form['nombre_area']
+        ubicacion = request.form['ubicacion']
+        dispositivos = request.form['dispositivos']
+        marca_dispositivos = request.form['marca_dispositivos']
+
+        resultado_insert = guardarArea(area_name, ubicacion, dispositivos, marca_dispositivos)
+
         if resultado_insert:
-            # Éxito al guardar el área
-            flash('El Area fue creada correctamente', 'success')
+            flash('El Área fue creada correctamente', 'success')
             return redirect(url_for('lista_areas'))
-            
         else:
-            # Manejar error al guardar el área
-            return "Hubo un error al guardar el área."
-    return render_template('public/usuarios/lista_areas')
+            flash('Hubo un error al guardar el Área', 'error')
+
+    # Si llegamos aquí, es una solicitud GET o un error en la solicitud POST
+    return render_template('public/usuarios/lista_areas.html')
 
 ##ACTUALIZAR AREA
 @app.route('/actualizar-area', methods=['POST'])
 def updateArea():
     if request.method == 'POST':
-        nombre_area = request.form['nombre_area']  # Asumiendo que 'nuevo_nombre' es el nombre del campo en el formulario
+        # Obtener los valores actualizados desde el formulario
+        nombre_area = request.form['nombre_area']
+        ubicacion = request.form['ubicacion']
+        dispositivos = request.form['dispositivos']
+        marca_dispositivos = request.form['marca_dispositivos']
         id_area = request.form['id_area']
-        resultado_update = actualizarArea(id_area, nombre_area)
-        if resultado_update:
-           # Éxito al actualizar el área
-            flash('El actualizar fue creada correctamente', 'success')
-            return redirect(url_for('lista_areas'))
-        else:
-            # Manejar error al actualizar el área
-            return "Hubo un error al actualizar el área."
+
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                    # Actualizar todos los campos en la tabla 'area'
+                    sql = """UPDATE area 
+                             SET nombre_area = %s, ubicacion = %s, dispositivos = %s, marca_dispositivos = %s
+                             WHERE id_area = %s"""
+
+                    valores = (nombre_area, ubicacion, dispositivos, marca_dispositivos, id_area)
+                    mycursor.execute(sql, valores)
+                    conexion_MySQLdb.commit()
+
+                    # Verificar si la actualización fue exitosa
+                    resultado_update = mycursor.rowcount
+
+                    if resultado_update:
+                        flash('El área fue actualizada correctamente', 'success')
+                    else:
+                        flash('Hubo un error al actualizar el área', 'error')
+
+        except Exception as e:
+            flash(f'Se produjo un error al actualizar el área: {str(e)}', 'error')
 
     return redirect(url_for('lista_areas'))
     

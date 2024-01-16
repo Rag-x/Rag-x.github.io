@@ -140,7 +140,7 @@ def lista_areasBD():
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                querySQL = "SELECT id_area, nombre_area FROM area"
+                querySQL = "SELECT id_area, nombre_area, ubicacion, dispositivos, marca_dispositivos FROM area"
                 cursor.execute(querySQL,)
                 areasBD = cursor.fetchall()
         return areasBD
@@ -242,27 +242,26 @@ def lista_rolesBD():
         print(f"Error en select roles : {e}")
         return []
 ##CREAR AREA
-def guardarArea(area_name):
+def guardarArea(nombre_area, ubicacion, dispositivos, marca_dispositivos):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                    sql = "INSERT INTO area (nombre_area) VALUES (%s)"
-                    valores = (area_name,)
-                    mycursor.execute(sql, valores)
-                    conexion_MySQLdb.commit()
-                    resultado_insert = mycursor.rowcount
-                    return resultado_insert 
-        
+                sql = "INSERT INTO area (nombre_area, ubicacion, dispositivos, marca_dispositivos) VALUES (%s, %s, %s, %s)"
+                valores = (nombre_area, ubicacion, dispositivos, marca_dispositivos)
+                mycursor.execute(sql, valores)
+                conexion_MySQLdb.commit()
+                resultado_insert = mycursor.rowcount
+                return resultado_insert
+
     except Exception as e:
-        return f'Se produjo un error en crear Area: {str(e)}' 
-    
+        return f'Se produjo un error al crear el área: {str(e)}'
 ##ACTUALIZAR AREA
-def actualizarArea(area_id, area_name):
+def actualizarArea(area_id, area_name, ubicacion, dispositivos, marca_dispositivos):
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                sql = """UPDATE area SET nombre_area = %s WHERE id_area = %s"""
-                valores = (area_name, area_id)
+                sql = """UPDATE area SET nombre_area = %s, ubicacion = %s, dispositivos = %s,marca_dispositivos = %s  WHERE id_area = %s"""
+                valores = (area_name, ubicacion, dispositivos,marca_dispositivos, area_id)
                 mycursor.execute(sql, valores)
                 conexion_MySQLdb.commit()
                 resultado_update = mycursor.rowcount
