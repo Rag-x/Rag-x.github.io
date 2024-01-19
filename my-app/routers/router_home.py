@@ -2,7 +2,7 @@ from controllers.funciones_login import *
 from app import app
 from flask import render_template, request, flash, redirect, url_for, session,  jsonify
 from mysql.connector.errors import Error
-
+from flask import render_template
 
 # Importando cenexión a BD
 from controllers.funciones_home import *
@@ -14,7 +14,13 @@ def lista_areas():
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
-
+@app.route('/sensores', methods=['GET'])
+def lista_sensores():
+    if 'conectado' in session:
+        return render_template('public/usuarios/lista_sensores.html', areas=lista_areasBD(), dataLogin=dataLoginSesion())
+    else:
+        flash('primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
 @app.route("/lista-de-usuarios", methods=['GET'])
 def usuarios():
     if 'conectado' in session:
