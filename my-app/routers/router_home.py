@@ -14,12 +14,15 @@ def lista_areas():
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
-@app.route('/sensores', methods=['GET'])
-def lista_sensores():
+@app.route('/lista-sensor', methods=['GET'])
+def lista_sensorBD():
     if 'conectado' in session:
-        return render_template('public/usuarios/lista_sensores.html', areas=lista_areasBD(), dataLogin=dataLoginSesion())
+        sensores = lista_sensor()  # Asegúrate de implementar esta función
+        areas = lista_areasBD()
+        data_login = dataLoginSesion()
+        return render_template('public/usuarios/lista_sensor.html', sensores=sensores, areas=areas, dataLogin=data_login)
     else:
-        flash('primero debes iniciar sesión.', 'error')
+        flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
 @app.route("/lista-de-usuarios", methods=['GET'])
 def usuarios():

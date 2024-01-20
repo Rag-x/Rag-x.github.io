@@ -36,18 +36,20 @@
       </a>
     </li>
     {% if dataLogin.rol == 1 %}
-    <li class="menu-item {% if request.path == '/sensores' %} active {% endif %}">
-      <a href="/sensores" class="menu-link">
-        <i class="menu-icon bi bi-sensor"></i>
-        <div data-i18n="Tables">Sensores</div>
-      </a>
-    </li>  
     <li
       class="menu-item {% if request.path == '/lista-de-areas' %} active{% endif %}"
     >
       <a href="/lista-de-areas" class="menu-link">
         <i class="menu-icon bi bi-person-lines-fill"></i>
         <div data-i18n="Boxicons">Lista de Áreas</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == 'lista-sensor' %} active{% endif %}"
+    >
+      <a href="/lista-sensor" class="menu-link">
+        <i class="menu-icon bi bi-person-lines-fill"></i>
+        <div data-i18n="Boxicons">Lista de sensores</div>
       </a>
     </li>
     {%endif%} {% if dataLogin.rol == 1 %}

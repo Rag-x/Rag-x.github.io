@@ -270,3 +270,14 @@ def actualizarArea(area_id, area_name, ubicacion, dispositivos, marca_dispositiv
     except Exception as e:
         return f'Se produjo un error al actualizar el área: {str(e)}'
     
+def lista_sensor():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "SELECT id_sensor, tipo, ubicacion, valor FROM sensor"
+                cursor.execute(querySQL,)
+                areasBD = cursor.fetchall()
+        return areasBD
+    except Exception as e:
+        print(f"Error en lista_sensor : {e}")
+        return []
