@@ -274,7 +274,7 @@ def lista_sensor():
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                querySQL = "SELECT id_sensor, tipo, ubicacion, valor FROM sensor"
+                querySQL = "SELECT id_sensor, tipo, fecha, valor FROM sensor"
                 cursor.execute(querySQL,)
                 areasBD = cursor.fetchall()
         return areasBD

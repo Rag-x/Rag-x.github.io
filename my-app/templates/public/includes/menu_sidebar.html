@@ -45,7 +45,7 @@
       </a>
     </li>
     {% endif %}
-    {% if dataLogin.rol == 1 or dataLogin.rol == 2 %}
+    {% if dataLogin.rol == 2 %}
     <li
       class="menu-item {% if request.path == '/lista-sensor' %} active{% endif %}"
     >
@@ -55,13 +55,13 @@
       </a>
     </li>
     {% endif %}
-    {% if dataLogin.rol == 1 or dataLogin.rol == 2 %}
+    {% if dataLogin.rol == 2 %}
     <li
       class="menu-item {% if request.path == '/lista-vista' %} active{% endif %}"
     >
       <a href="/lista-vista" class="menu-link">
         <i class="menu-icon bi bi-person-lines-fill"></i>
-        <div data-i18n="Boxicons">Vista de data</div>
+        <div data-i18n="Boxicons">Vista del Data Center</div>
       </a>
     </li>
     {% endif %}
