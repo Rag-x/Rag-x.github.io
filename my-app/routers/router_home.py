@@ -24,6 +24,13 @@ def lista_sensorBD():
     else:
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+@app.route('/lista-vista', methods=['GET'])
+def lista_vista():
+    if 'conectado' in session:
+        return render_template('public/usuarios/lista_vista.html', lista_vista1=lista_vista(), dataLogin=dataLoginSesion())
+    else:
+        flash('primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
 @app.route("/lista-de-usuarios", methods=['GET'])
 def usuarios():
     if 'conectado' in session:

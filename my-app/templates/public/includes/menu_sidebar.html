@@ -44,15 +44,28 @@
         <div data-i18n="Boxicons">Lista de Áreas</div>
       </a>
     </li>
+    {% endif %}
+    {% if dataLogin.rol == 1 or dataLogin.rol == 2 %}
     <li
-      class="menu-item {% if request.path == 'lista-sensor' %} active{% endif %}"
+      class="menu-item {% if request.path == '/lista-sensor' %} active{% endif %}"
     >
       <a href="/lista-sensor" class="menu-link">
         <i class="menu-icon bi bi-person-lines-fill"></i>
         <div data-i18n="Boxicons">Lista de sensores</div>
       </a>
     </li>
-    {%endif%} {% if dataLogin.rol == 1 %}
+    {% endif %}
+    {% if dataLogin.rol == 1 or dataLogin.rol == 2 %}
+    <li
+      class="menu-item {% if request.path == '/lista-vista' %} active{% endif %}"
+    >
+      <a href="/lista-vista" class="menu-link">
+        <i class="menu-icon bi bi-person-lines-fill"></i>
+        <div data-i18n="Boxicons">Vista de data</div>
+      </a>
+    </li>
+    {% endif %}
+    {% if dataLogin.rol == 1 %}
     <li
       class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}"
     >
@@ -61,7 +74,7 @@
         <div data-i18n="Tables">Lista de Usuarios</div>
       </a>
     </li>
-    {%endif%}
+    {% endif %}
     <li
       class="menu-item {% if request.path == '/mi-perfil/{{dataLogin.id}}'%} active {% endif %}"
     >
@@ -78,3 +91,4 @@
     </li>  
   </ul>
 </aside>
+

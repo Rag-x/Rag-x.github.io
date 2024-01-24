@@ -6,10 +6,15 @@
 
 <div class="card" style="border-radius: 0px !important">
   <div class="row justify-content-center mb-2">
-    <div class="row justify-content-end">
-      <div class="col-md-6 mt-4 py-2">
-        <input type="search" id="search" class="form-control border-0 shadow-none" placeholder="Buscar sensor..."
-          onkeyup="buscadorTable('tbl_sensores')" />
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md-6 mb-4">
+          <h3 class="text-center mt-5 mb-3">LISTA DE SENSORES</h3>
+          <hr />
+        </div>
+        <div class="col-md-6 mb-4 text-right">
+          <input type="search" id="search" class="form-control border-0 shadow-none" placeholder="Buscar sensor..."
+            onkeyup="buscadorTable('tbl_sensores')" />
+        </div>
       </div>
     </div>
 
@@ -32,7 +37,6 @@
               <td>{{ sensor.ubicacion }}</td>
               <td>{{ sensor.valor }}</td>
             </tr>
-
             {% endfor %}
           </tbody>
         </table>
@@ -52,7 +56,7 @@ function buscadorTable(idTabla) {
 
     // Iterar a través de todas las filas y ocultar aquellas que no coincidan con la búsqueda
     for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[3]; // Cambiar el índice a la columna que deseas filtrar (en este caso, 3 para la columna "Valor")
+        td = tr[i].getElementsByTagName("td")[1]; // Cambiar el índice a la columna que deseas filtrar (en este caso, 1 para la columna "Tipo")
         if (td) {
             txtValue = td.textContent || td.innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -66,5 +70,7 @@ function buscadorTable(idTabla) {
 </script>
 
 {% endblock %}
+
+
 
 

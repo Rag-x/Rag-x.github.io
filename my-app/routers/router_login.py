@@ -153,3 +153,18 @@ def cerraSesion():
         else:
             flash('recuerde debe iniciar sesión.', 'error')
             return render_template(f'{PATH_URL_LOGIN}/base_login.html')
+@app.route('/lista-vista', methods=['GET'])
+def lista_vista1():
+    if 'conectado' in session:
+        dataLogin = dataLoginSesion()
+
+        # Verificar si 'rol' está presente en el diccionario
+        if 'rol' in dataLogin and (dataLogin['rol'] == 1 or dataLogin['rol'] == 2):
+            return render_template('public/usuarios/lista_vista.html', dataLogin=dataLogin)
+        else:
+            flash('No tienes permisos para acceder a esta página.', 'error')
+            return redirect(url_for('inicio'))
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
