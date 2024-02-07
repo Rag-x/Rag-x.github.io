@@ -4,14 +4,6 @@
 <!-- Inicio del block -->
 {% block body %}
 
-<style>
-  /* Estilos CSS personalizados para cambiar el color de fondo */
-  .fila-roja {
-    background-color: #fc0101; /* Rojo */
-    color: #FFFFFF; /* Texto blanco para mayor legibilidad */
-  }
-</style>
-
 <div class="card" style="border-radius: 0px !important">
   <div class="row justify-content-center mb-2">
     <div class="row justify-content-between align-items-center">
@@ -22,7 +14,7 @@
       <div class="col-md-6 mb-4 text-right">
         <input type="search" id="search" class="form-control border-0 shadow-none" placeholder="Buscar sensor..."
           onkeyup="buscadorTable('tbl_sensores')" />
-      </div>
+      </div>      
     </div>
   </div>
 
@@ -31,7 +23,6 @@
       <table id="tbl_sensores" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
           <tr>
-            <th>ID Sensor</th>
             <th>Tipo</th>
             <th>Fecha</th>
             <th>Valor</th>
@@ -39,16 +30,17 @@
         </thead>
         <tbody>
           {% for sensor in sensores %}
-          {% if sensor.valor > 27 or sensor.valor < 8 or (sensor.tipo == 'GAS' and sensor.valor == 1.0) %}
-          <tr id="{{ sensor.id_sensor }}" class="fila-roja">
-            {% else %}
-          <tr id="{{ sensor.id_sensor }}">
-            {% endif %}
-            <td>{{ sensor.id_sensor }}</td>
-            <td>{{ sensor.tipo }}</td>
-            <td>{{ sensor.fecha }}</td>
-            <td>{{ sensor.valor }}</td>
-          </tr>
+            <tr>
+              <td {% if sensor.tipo == 'GAS' and sensor.valor == 1 %}style="color: red;"{% elif sensor.tipo == 'Temperatura' and sensor.valor >= 24 %}style="color: red;"{% endif %}>
+                {{ sensor.tipo }}
+              </td>
+              <td {% if sensor.tipo == 'GAS' and sensor.valor == 1 %}style="color: red;"{% elif sensor.tipo == 'Temperatura' and sensor.valor >= 24 %}style="color: red;"{% endif %}>
+                {{ sensor.fecha }}
+              </td>
+              <td {% if sensor.tipo == 'GAS' and sensor.valor == 1 %}style="color: red;"{% elif sensor.tipo == 'Temperatura' and sensor.valor >= 24 %}style="color: red;"{% endif %}>
+                {{ sensor.valor }}
+              </td>
+            </tr>
           {% endfor %}
         </tbody>
       </table>
@@ -67,7 +59,7 @@
 
     // Iterar a través de todas las filas y ocultar aquellas que no coincidan con la búsqueda
     for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[1]; // Cambiar el índice a la columna que deseas filtrar (en este caso, 1 para la columna "Tipo")
+      td = tr[i].getElementsByTagName("td")[0]; // Cambiar el índice a la columna que deseas filtrar (en este caso, 0 para la columna "Tipo")
       if (td) {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -81,6 +73,14 @@
 </script>
 
 {% endblock %}
+
+
+
+
+
+
+
+
 
 
 

@@ -167,4 +167,42 @@ def lista_vista1():
     else:
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+    
+@app.route('/reporte-ingreso', methods=['GET'])
+def lista_ingreso():
+    if 'conectado' in session:
+        dataLogin = dataLoginSesion()
 
+        # Verificar si 'rol' está presente en el diccionario
+        if 'rol' in dataLogin and (dataLogin['rol'] == 1 or dataLogin['rol'] == 2):
+            sesiones = obtener_sesiones()  # Reemplaza esto con la función adecuada para obtener las sesiones desde la base de datos
+            return render_template('public/usuarios/ingresos.html', sesiones=sesiones, dataLogin=dataLogin)
+        else:
+            flash('No tienes permisos para acceder a esta página.', 'error')
+            return redirect(url_for('inicio'))
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+def obtener_sesiones():
+    try:
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor(dictionary=True) as cursor:
+                querySQL = """
+                SELECT
+                    r.nombre_rol AS Rol,
+                    u.nombre_usuario AS NombreUsuario,
+                    ac.fecha AS Fecha,
+                    ac.clave AS ClaveAcceso
+                FROM
+                    usuarios u
+                JOIN rol r ON u.id_rol = r.id_rol
+                LEFT JOIN accesos ac ON u.id_usuario = ac.id_usuario;
+                """
+                cursor.execute(querySQL)
+                sesiones = cursor.fetchall()
+
+        return sesiones
+    except Exception as e:
+        print(f"Error al obtener sesiones: {e}")
+        return []

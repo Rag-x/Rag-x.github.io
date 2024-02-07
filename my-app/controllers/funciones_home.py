@@ -122,6 +122,25 @@ def buscarAreaBD(search):
         print(f"Ocurrió un error en def buscarEmpleadoBD: {e}")
         return []
 
+def buscarAreaBD1(search):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = ("""
+                        SELECT 
+                            s.tipo
+                        FROM sensor AS s
+                        WHERE s.tipo LIKE %s 
+                        ORDER BY s.tipo DESC
+                    """)
+                search_pattern = f"%{search}%"  # Agregar "%" alrededor del término de búsqueda
+                mycursor.execute(querySQL, (search_pattern,))
+                resultado_busqueda = mycursor.fetchall()
+                return resultado_busqueda
+
+    except Exception as e:
+        print(f"Ocurrió un error en def buscarAreaBD: {e}")
+        return []
 
 # Lista de Usuarios creados
 def lista_usuariosBD():
@@ -281,3 +300,30 @@ def lista_sensor():
     except Exception as e:
         print(f"Error en lista_sensor : {e}")
         return []
+    
+def dataingreso():
+    try:
+        with connectionBD() as conexion_MYSQLdb:
+            with conexion_MYSQLdb.cursor(dictionary=True) as cursor:
+                # Ejecutar el desencadenador directamente sin un SELECT previo
+                triggerSQL = """
+                INSERT INTO sesiones (id_usuario, nombre_usuario, clave, fecha_inicio, rol)
+                SELECT u.id_usuario, u.nombre_usuario, COALESCE(s.clave, ac.clave) AS ClaveAcceso, NOW(), r.nombre_rol AS Rol
+                FROM usuarios u
+                JOIN rol r ON u.id_rol = r.id_rol
+                LEFT JOIN sesiones s ON u.id_usuario = s.id_usuario
+                LEFT JOIN accesos ac ON u.id_usuario = ac.id_usuario
+                """
+                cursor.execute(triggerSQL)
+
+                # Imprimir información adicional
+                print(f"Filas afectadas por la inserción: {cursor.rowcount}")
+
+        return True
+    except Exception as e:
+        print(f"Error en dataingreso: {e}")
+        return False
+
+
+
+

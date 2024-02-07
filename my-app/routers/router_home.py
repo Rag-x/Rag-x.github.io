@@ -71,6 +71,12 @@ def reporteAccesos():
     if 'conectado' in session:
         userData = dataLoginSesion()
         return render_template('public/perfil/reportes.html',  reportes=dataReportes(),lastAccess=lastAccessBD(userData.get('cedula')), dataLogin=dataLoginSesion())
+    
+@app.route("/reporte-ingreso", methods=['GET'])
+def reporteingresos():
+    if 'conectado' in session:
+        userData = dataLoginSesion()
+        return render_template('public/usuarios/ingresos.html',  lista_ingreso=dataingreso(),lastAccess=lastAccessBD(userData.get('cedula')), dataLogin=dataLoginSesion())
 
 @app.route("/interfaz-clave", methods=['GET','POST'])
 def claves():

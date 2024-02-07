@@ -27,6 +27,7 @@
         <div data-i18n="Tables">Generar Clave</div>
       </a>
     </li>
+    {% if dataLogin.rol == 1 %}
     <li
       class="menu-item {% if request.path == '/reporte-accesos' %} active{%endif%}"
     >
@@ -35,6 +36,18 @@
         <div data-i18n="Tables">Reporte Accesos</div>
       </a>
     </li>
+    {% endif %}
+    {% if dataLogin.rol == 1 %}
+    <li
+      class="menu-item {% if request.path == '/reporte-ingreso' %} active{%endif%}"
+    >
+      <a href="/reporte-ingreso" class="menu-link">
+        <i class="menu-icon bi bi-file-lock-fill"></i>
+        <div data-i18n="Tables">Ingresos al data center</div>
+      </a>
+    </li>
+    {% endif %}
+
     {% if dataLogin.rol == 1 %}
     <li
       class="menu-item {% if request.path == '/lista-de-areas' %} active{% endif %}"

@@ -1,0 +1,71 @@
+{% extends 'public/base_cpanel.html' %}
+
+<!-- Cambiando el title -->
+{% block title %}TecnoCorp | Lista de Sesiones{% endblock %}
+<!-- Inicio del block -->
+{% block body %}
+
+<style>
+  /* Estilo para quitar el borde del campo de entrada de texto */
+  input[type="password"] {
+    border: none;
+  }
+</style>
+
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12 mb-4">
+      <h3 class="text-center mt-5 mb-3">LISTA DE SESIONES</h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="table-responsive text-nowrap table-hover">
+      <table id="tbl_sesiones" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Rol</th>
+            <th>Nombre Usuario</th>
+            <th>Fecha</th>
+            <th>Clave de Acceso</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sesion in sesiones %}
+            <tr>
+              <td>{{ sesion.Rol }}</td>
+              <td>{{ sesion.NombreUsuario }}</td>
+              <td>{{ sesion.Fecha }}</td>
+              <td>
+                <input type="password" value="{{ sesion.ClaveAcceso }}" readonly>
+                <button class="btn btn-primary" onmousedown="mostrarClave(this)" onmouseup="ocultarClave(this)">Mostrar Clave</button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  function mostrarClave(button) {
+    var input = button.parentNode.querySelector('input[type="password"]');
+    input.type = "text";
+  }
+
+  function ocultarClave(button) {
+    var input = button.parentNode.querySelector('input[type="text"]');
+    input.type = "password";
+  }
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
